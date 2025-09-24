@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",             // better for async/await
+    "module": "nodenext",
+    "lib": ["ES2017", "DOM"],       // ensures Promise, async, fetch etc.
+    "types": ["node"],              // since you’re using Node
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  }
+}
