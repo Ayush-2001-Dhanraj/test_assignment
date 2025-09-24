@@ -39,8 +39,9 @@ var BASEURL = "https://jsonplaceholder.typicode.com";
 var ENDPOINT = "posts";
 var GET_ENDPOINT = "".concat(BASEURL, "/").concat(ENDPOINT);
 var list = document.getElementById("posts");
+var filteredList = document.getElementById("filteredPosts");
 var getPosts = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, i, item;
+    var response, data, i, item, filteredData, i, item;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, fetch(GET_ENDPOINT)];
@@ -49,11 +50,16 @@ var getPosts = function () { return __awaiter(_this, void 0, void 0, function ()
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                console.log("data:", data);
                 for (i = 0; i < data.length; i++) {
                     item = document.createElement("li");
                     item.innerHTML = data[i].title;
                     list === null || list === void 0 ? void 0 : list.appendChild(item);
+                }
+                filteredData = data.filter(function (d) { return d.title.includes("in"); });
+                for (i = 0; i < filteredData.length; i++) {
+                    item = document.createElement("li");
+                    item.innerHTML = filteredData[i].title;
+                    filteredList === null || filteredList === void 0 ? void 0 : filteredList.appendChild(item);
                 }
                 return [2 /*return*/];
         }
