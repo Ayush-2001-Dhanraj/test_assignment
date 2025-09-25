@@ -1,43 +1,43 @@
-const BASEURL = "https://jsonplaceholder.typicode.com"
-const ENDPOINT = "posts"
+const USER_COUNTS = 200;
 
+const BASEURL = "https://randomuser.me";
+const ENDPOINT = `api/?results=${USER_COUNTS}`;
+const GET_ENDPOINT = `${BASEURL}/${ENDPOINT}`;
 
-const GET_ENDPOINT = `${BASEURL}/${ENDPOINT}`
-const list = document.getElementById("posts")
-const filteredList = document.getElementById("filteredPosts")
+const boxSection = document.getElementById("box_section") as HTMLElement;
 
-const getPosts = async () => {
-    const response = await fetch(GET_ENDPOINT)
-    const data = await response.json()
-    for (let i = 0; i < data.length; i++) {
-        const item = document.createElement("li")
-        item.innerHTML = data[i].title
-        list?.appendChild(item)
+interface UserPicture {
+    large: string;
+    medium: string;
+    thumbnail: string;
+}
+
+interface UserResult {
+    picture: UserPicture;
+}
+
+interface ApiResponse {
+    results: UserResult[];
+}
+
+const populateFaces = async (): Promise<void> => {
+    try {
+        const response = await fetch(GET_ENDPOINT);
+        const data: ApiResponse = await response.json();
+
+        data.results.forEach((user) => {
+            const item = document.createElement("div");
+            item.classList.add("box");
+
+            item.style.backgroundImage = `url(${user.picture.large})`;
+            item.style.backgroundSize = "cover";
+            item.style.backgroundPosition = "center";
+
+            boxSection?.appendChild(item);
+        });
+    } catch (error) {
+        console.error("Error fetching users:", error);
     }
+};
 
-    // filtered data
-    const filteredData = data.filter((d: user) => d.title.includes("in"))
-    for (let i = 0; i < filteredData.length; i++) {
-        const item = document.createElement("li")
-        item.innerHTML = filteredData[i].title
-        filteredList?.appendChild(item)
-    }
-}
-
-
-
-
-
-getPosts()
-
-
-interface user {
-    userID: number;
-    id: number;
-    title: string
-    body: string
-}
-
-interface users {
-    data: user[]
-}
+populateFaces();
