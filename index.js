@@ -35,34 +35,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-var BASEURL = "https://jsonplaceholder.typicode.com";
-var ENDPOINT = "posts";
+var USER_COUNTS = 200;
+var BASEURL = "https://randomuser.me";
+var ENDPOINT = "api/?results=".concat(USER_COUNTS);
 var GET_ENDPOINT = "".concat(BASEURL, "/").concat(ENDPOINT);
-var list = document.getElementById("posts");
-var filteredList = document.getElementById("filteredPosts");
-var getPosts = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, i, item, filteredData, i, item;
+var boxSection = document.getElementById("box_section");
+var populateFaces = function () { return __awaiter(_this, void 0, void 0, function () {
+    var response, data, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch(GET_ENDPOINT)];
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, fetch(GET_ENDPOINT)];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                for (i = 0; i < data.length; i++) {
-                    item = document.createElement("li");
-                    item.innerHTML = data[i].title;
-                    list === null || list === void 0 ? void 0 : list.appendChild(item);
-                }
-                filteredData = data.filter(function (d) { return d.title.includes("in"); });
-                for (i = 0; i < filteredData.length; i++) {
-                    item = document.createElement("li");
-                    item.innerHTML = filteredData[i].title;
-                    filteredList === null || filteredList === void 0 ? void 0 : filteredList.appendChild(item);
-                }
-                return [2 /*return*/];
+                data.results.forEach(function (user) {
+                    var item = document.createElement("div");
+                    item.classList.add("box");
+                    // apply image as background cover
+                    item.style.backgroundImage = "url(".concat(user.picture.large, ")");
+                    item.style.backgroundSize = "cover";
+                    item.style.backgroundPosition = "center";
+                    boxSection === null || boxSection === void 0 ? void 0 : boxSection.appendChild(item);
+                });
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _a.sent();
+                console.error("Error fetching users:", error_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
-getPosts();
+populateFaces();
